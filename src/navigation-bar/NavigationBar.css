@@ -1,0 +1,6 @@
+.navigation-bar {
+    background-color: #96ACB7;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: 1px 10px 15px rgba(0, 0, 0, 0.22);
+}
