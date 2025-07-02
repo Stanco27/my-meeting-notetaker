@@ -10,7 +10,7 @@ const Assemblyai = async ({ audioFile }: AssemblyaiProps) => {
   const baseUrl = "https://api.assemblyai.com";
 
   const headers = {
-    auth: "029ebd87f6d44e48868ad8f5884c06e5"
+    auth: ""
   }
 
   const client = new AssemblyAI({

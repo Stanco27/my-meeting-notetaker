@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "node dist/Backend/APIs/index.js"
+    "start": "node dist/APIs/index.js"
   },
   "dependencies": {
     "assemblyai": "^4.13.4",
