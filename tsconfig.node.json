@@ -4,7 +4,7 @@
     "lib": ["ES2023"],
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "dist",
+    "outDir": "back-dist",
     "rootDir": "Backend",
     "strict": true,
     "esModuleInterop": true,
