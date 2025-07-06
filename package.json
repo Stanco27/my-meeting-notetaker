@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.node.json && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "node back-dist/APIs/index.js"
+    "build:back": "tsc -p tsconfig.node.json",
+    "build:front": "vite build",
+    "start:back": "node back-dist/APIs/index.js",
+    "preview:front": "vite preview",
+    "build": "npm run build:back && npm run build:front",
+    "start": "node back-dist/APIs/index.js",
+    "lint": "eslint ."
   },
   "dependencies": {
     "assemblyai": "^4.13.4",
