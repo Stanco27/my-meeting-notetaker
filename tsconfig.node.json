@@ -3,12 +3,13 @@
     "target": "ES2023",
     "lib": ["ES2023"],
     "module": "commonjs",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "outDir": "back-dist",
     "rootDir": "Backend",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["Backend/**/*"]
+  "include": ["Backend/**/*", "Backend/index.ts"]
 }
