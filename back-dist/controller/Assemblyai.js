@@ -1,10 +1,52 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTranscription = exports.startTranscription = void 0;
+exports.getTranscription = exports.startTranscription = exports.uploadAudioFile = void 0;
 const assemblyai_1 = require("assemblyai");
+const axios_1 = __importDefault(require("axios"));
+const fs_extra_1 = __importDefault(require("fs-extra"));
+const headers = {
+    "authorization": process.env.ASSEMBLYAI_API_KEY || "029ebd87f6d44e48868ad8f5884c06e5",
+};
 const client = new assemblyai_1.AssemblyAI({
-    apiKey: "029ebd87f6d44e48868ad8f5884c06e5"
+    // .env file should contain your AssemblyAI API key
+    apiKey: headers.authorization,
 });
+const baseUrl = "https://api.assemblyai.com";
+const uploadAudioFile = async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: "No audio file uploaded." });
+    }
+    const audioFilePath = req.file.path;
+    console.log(`Audio file uploaded successfully: ${audioFilePath}`);
+    try {
+        const audioData = await fs_extra_1.default.readFile(audioFilePath);
+        const uploadResponse = await axios_1.default.post(`${baseUrl}/v2/upload`, audioData, {
+            headers,
+        });
+        const audioUrl = uploadResponse.data.upload_url;
+        const params = {
+            audio_url: audioUrl,
+            speech_model: "universal",
+        };
+        console.log(`Initiating AssemblyAI transcription for: ${audioUrl}`);
+        const transcript = await client.transcripts.create(params);
+        console.log(`Transcription job started. ID: ${transcript.id}, Status: ${transcript.status}`);
+        await fs_extra_1.default.unlink(audioFilePath);
+        return res.status(202).json({
+            message: "Transcription job started successfully",
+            transcriptId: transcript.id,
+            status: transcript.status
+        });
+    }
+    catch (error) {
+        console.error("Error in uploadAudioFile:", error);
+        return res.status(500).json({ error: "Internal Server Error uploading audio file" });
+    }
+};
+exports.uploadAudioFile = uploadAudioFile;
 const startTranscription = async (req, res) => {
     const { audioUrl } = req.body;
     try {

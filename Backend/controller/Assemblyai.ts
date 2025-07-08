@@ -1,10 +1,60 @@
 import { AssemblyAI, SpeechModel } from "assemblyai";
+import axios from "axios";
 import { Request, Response } from "express";
+import fs from "fs-extra";
+
+const headers = {
+  "authorization": process.env.ASSEMBLYAI_API_KEY || "",
+};
 
 const client = new AssemblyAI({
   // .env file should contain your AssemblyAI API key
-  apiKey: ""
+  apiKey: headers.authorization,
 });
+
+
+const baseUrl = "https://api.assemblyai.com";
+
+export const uploadAudioFile = async (req: Request, res: Response): Promise<any> => { 
+  if(!req.file) {
+    return res.status(400).json({ error: "No audio file uploaded." });
+  }
+
+  const audioFilePath = req.file.path;
+  console.log(`Audio file uploaded successfully: ${audioFilePath}`);
+
+  try {
+    const audioData = await fs.readFile(audioFilePath);
+    const uploadResponse = await axios.post(`${baseUrl}/v2/upload`, audioData, {
+      headers,
+    });
+    const audioUrl = uploadResponse.data.upload_url;
+
+    const params = {
+      audio_url: audioUrl,
+      speech_model: "universal" as SpeechModel,
+    };
+
+    console.log(`Initiating AssemblyAI transcription for: ${audioUrl}`);
+    const transcript = await client.transcripts.create(params);
+
+    console.log(`Transcription job started. ID: ${transcript.id}, Status: ${transcript.status}`);
+
+    await fs.unlink(audioFilePath);
+
+
+    return res.status(202).json({
+      message: "Transcription job started successfully",
+      transcriptId: transcript.id,
+      status: transcript.status
+    });
+
+  } catch (error) {
+    console.error("Error in uploadAudioFile:", error);
+    return res.status(500).json({ error: "Internal Server Error uploading audio file" });
+  }
+}
+
 
 export const startTranscription = async (req: Request, res: Response): Promise<any> => {
   const { audioUrl } = req.body;
