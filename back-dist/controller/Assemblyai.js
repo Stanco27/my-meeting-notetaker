@@ -8,7 +8,7 @@ const assemblyai_1 = require("assemblyai");
 const axios_1 = __importDefault(require("axios"));
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const headers = {
-    "authorization": process.env.ASSEMBLYAI_API_KEY || "029ebd87f6d44e48868ad8f5884c06e5",
+    "authorization": process.env.ASSEMBLYAI_API_KEY || "",
 };
 const client = new assemblyai_1.AssemblyAI({
     // .env file should contain your AssemblyAI API key
