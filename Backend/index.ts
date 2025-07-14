@@ -3,6 +3,7 @@ import cors from 'cors';
 import multer from 'multer';
 import handleFilesRoute from './routes/handle.files.route';
 import dotenv from 'dotenv';
+import groqRoute from './routes/groq.route';
 
 dotenv.config();
 
@@ -28,4 +29,4 @@ app.use('/uploads', express.static('uploads'));
 app.post('/uploadAudioFile', upload.single('audioFile'), handleFilesRoute);
 
 // Routes
-app.use(handleFilesRoute);
+app.use(handleFilesRoute, groqRoute);

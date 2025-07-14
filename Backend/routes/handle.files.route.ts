@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { getTranscription, startTranscription, uploadAudioFile } from "../controller/Assemblyai";
-import { upload } from "..";
 
 const router = Router();
 
