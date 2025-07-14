@@ -15,11 +15,6 @@ app.listen(PORT, () => {
   console.log(`Backend server running on port ${PORT}`);
 });
 
-// Health check endpoint
-// app.use((req, res, next) => {
-//   res.status(200).send({ message: "Server is running" });
-// })
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
