@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Groq from 'groq-sdk';
 
-const groqApiKey = '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';
+const groqApiKey = '';
 
 const groq = new Groq({ apiKey: groqApiKey });
 
