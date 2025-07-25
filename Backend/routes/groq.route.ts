@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { testPrompt } from "../controller/Groq-Ai";
+import { createFlashCards, getMainTopics } from "../controller/Groq-Ai";
 
 const router = Router();
 
-router.get("/testPrompt", testPrompt);
+router.get("/getMainTopics", getMainTopics);
+router.post("/createFlashCards", createFlashCards);
 
 export default router;
