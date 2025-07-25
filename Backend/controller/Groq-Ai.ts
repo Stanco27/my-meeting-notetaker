@@ -1,29 +1,23 @@
+import axios from 'axios';
 import { Request, Response } from 'express';
 import Groq from 'groq-sdk';
 import dotenv from 'dotenv';
-dotenv.config();
+
+dotenv.config();    
 
 const groqApiKey = process.env.GROQ_API_KEY || '';
 
 const groq = new Groq({ apiKey: groqApiKey });
 
 export const testPrompt = async (req: Request, res: Response): Promise<any> => {
-
-    const { groqPrompt } = req.body;
     
-    if (!groqPrompt || typeof groqPrompt !== 'string' || groqPrompt.trim() === '') {
-        return res.status(400).json({
-            error: 'A valid prompt string is required in the request body.',
-        });
-    }
-
 
         try {
             const completion = await groq.chat.completions.create({
                 messages: [
                     {
                         role: "user",
-                        content: groqPrompt,    
+                        content: "Say Hi, this is a test prompt for Groq AI.",    
                     },
                 ],
                 model: "llama-3.3-70b-versatile",

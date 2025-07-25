@@ -17,10 +17,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Backend server running on port ${PORT}`);
 });
-// Health check endpoint
-// app.use((req, res, next) => {
-//   res.status(200).send({ message: "Server is running" });
-// })
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
