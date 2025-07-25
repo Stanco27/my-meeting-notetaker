@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import Groq from 'groq-sdk';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const groqApiKey = '';
+const groqApiKey = process.env.GROQ_API_KEY || '';
 
 const groq = new Groq({ apiKey: groqApiKey });
 
