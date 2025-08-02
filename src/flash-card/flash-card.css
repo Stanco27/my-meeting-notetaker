@@ -1,0 +1,74 @@
+.flash-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50vw !important;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: rgb(126, 165, 255) !important;
+    color: aliceblue !important;
+}
+
+.flash-card-options { 
+    display: flex;
+    flex-direction: column;
+    width: 20vw !important;
+    max-width: 300px;
+    border: 0.25px solid rgb(255, 255, 255) !important;
+    color:aliceblue !important;
+    border-radius: 5px !important;
+    transition: all 0.3s ease-in-out !important;
+    box-shadow: 1px 10px 15px rgba(0, 0, 0, 0.22);
+}
+
+.no-answer {
+    background-color: rgb(163, 65, 255) !important;
+}
+
+.disabled-options {
+    background-color: rgb(219, 181, 255) !important;
+    cursor: not-allowed !important;
+}
+
+.flash-card-options:first-child {
+    margin-top: 0 !important;
+}
+
+
+.no-answer:hover {
+    background-color: rgb(190, 120, 255) !important;
+    scale: 1.05;
+    transition: all 0.3s ease-in-out;
+}
+
+.correct-option {
+    background-color: rgb(53, 166, 53) !important;
+    cursor: not-allowed !important;
+}
+
+.incorrect-option {
+    background-color: rgb(255, 65, 65) !important;
+    cursor: not-allowed !important;
+}
+
+.flash-text {
+    text-align: center;
+    animation: fadeIn 0.75s ease-in-out !important;
+    margin-top: 10px !important;
+    width: 20vw !important;
+    max-width: 300px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
