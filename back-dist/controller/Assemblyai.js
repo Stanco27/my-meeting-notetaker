@@ -7,11 +7,12 @@ exports.getTranscription = exports.startTranscription = exports.uploadAudioFile 
 const assemblyai_1 = require("assemblyai");
 const axios_1 = __importDefault(require("axios"));
 const fs_extra_1 = __importDefault(require("fs-extra"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const headers = {
     "authorization": process.env.ASSEMBLYAI_API_KEY || "",
 };
 const client = new assemblyai_1.AssemblyAI({
-    // .env file should contain your AssemblyAI API key
     apiKey: headers.authorization,
 });
 const baseUrl = "https://api.assemblyai.com";
@@ -76,7 +77,7 @@ const startTranscription = async (req, res) => {
 };
 exports.startTranscription = startTranscription;
 const getTranscription = async (req, res) => {
-    const { transcriptId } = req.body;
+    const { transcriptId } = req.params;
     try {
         if (!transcriptId) {
             return res.status(400).json({ error: "Transcript ID is required in the URL." });

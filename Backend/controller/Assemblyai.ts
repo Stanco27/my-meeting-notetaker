@@ -2,13 +2,14 @@ import { AssemblyAI, SpeechModel } from "assemblyai";
 import axios from "axios";
 import { Request, Response } from "express";
 import fs from "fs-extra";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const headers = {
   "authorization": process.env.ASSEMBLYAI_API_KEY || "",
 };
 
 const client = new AssemblyAI({
-  // .env file should contain your AssemblyAI API key
   apiKey: headers.authorization,
 });
 
@@ -89,7 +90,7 @@ export const startTranscription = async (req: Request, res: Response): Promise<a
 };
 
 export const getTranscription = async (req: Request, res: Response): Promise<any> => {
-  const { transcriptId } = req.body;
+  const { transcriptId } = req.params;
 
   try {
     if (!transcriptId) {
