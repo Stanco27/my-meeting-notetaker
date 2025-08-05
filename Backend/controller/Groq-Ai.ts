@@ -11,7 +11,7 @@ const groq = new Groq({ apiKey: groqApiKey });
 
 export const getMainTopics = async (req: Request, res: Response): Promise<any> => {
 
-    const { transcript } = req.body;
+    const { transcript } = req.params;
 
     if (!transcript) { 
         return res.status(400).json({ error: "No prompt provided." });

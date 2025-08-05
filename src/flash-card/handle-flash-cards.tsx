@@ -1,7 +1,13 @@
 import React from "react";
-import { Button, Card, Col, Container, Row, Stack } from "react-bootstrap";
+import { Button, Card, Stack } from "react-bootstrap";
 import FlashCard from "./flash-card";
 import "./flash-card.css";
+
+interface FlashCardData {
+  question: string;
+    options: string[];
+    answer: string;
+}
 
 const HandleFlashCards = () => {
   const tempFlashCards = [
@@ -56,7 +62,7 @@ const HandleFlashCards = () => {
       <Stack
         direction="horizontal"
         gap={3}
-        className="justify-content-center mt-4"
+        className="justify-content-center mt-3"
       >
         <Button
           variant="secondary"
