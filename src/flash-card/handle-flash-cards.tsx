@@ -3,30 +3,18 @@ import { Button, Card, Stack } from "react-bootstrap";
 import FlashCard from "./flash-card";
 import "./flash-card.css";
 
-interface FlashCardData {
-  question: string;
+interface FlashCardProps {
+    question: string;
     options: string[];
     answer: string;
 }
 
-const HandleFlashCards = () => {
-  const tempFlashCards = [
-    {
-      question: "What is React?",
-      options: ["Library", "Framework", "Language", "Tool"],
-      answer: "Library",
-    },
-    {
-      question: "What is JSX?",
-      options: [
-        "JavaScript XML",
-        "JavaScript Extension",
-        "JavaScript Xtreme",
-        "JavaScript X",
-      ],
-      answer: "JavaScript XML",
-    },
-  ];
+interface HandleFlashCardsProps {
+    flashCards: FlashCardProps[];
+}
+
+const HandleFlashCards: React.FC<HandleFlashCardsProps> = ({ flashCards }) => {
+
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
   const [hasAnswered, setHasAnswered] = React.useState(false);
 
@@ -38,7 +26,7 @@ const HandleFlashCards = () => {
   };
 
   const handleNextClick = () => {
-    if (currentCardIndex < tempFlashCards.length - 1) {
+    if (currentCardIndex < flashCards.length - 1) {
       setHasAnswered(false);
       setCurrentCardIndex((prevIndex) => prevIndex + 1);
     }
@@ -48,7 +36,7 @@ const HandleFlashCards = () => {
     setHasAnswered(true);
   };
 
-  const currentCard = tempFlashCards[currentCardIndex];
+  const currentCard = flashCards[currentCardIndex];
 
   return (
     <Card className="flash-card">
@@ -75,7 +63,7 @@ const HandleFlashCards = () => {
           variant="primary"
           onClick={handleNextClick}
           disabled={
-            !hasAnswered || currentCardIndex >= tempFlashCards.length - 1
+            !hasAnswered || currentCardIndex >= flashCards.length - 1
           }
         >
           Next

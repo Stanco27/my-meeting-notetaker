@@ -11,7 +11,7 @@ const groq = new Groq({ apiKey: groqApiKey });
 
 export const getMainTopics = async (req: Request, res: Response): Promise<any> => {
 
-    const { transcript } = req.params;
+    const { transcript } = req.body;
 
     if (!transcript) { 
         return res.status(400).json({ error: "No prompt provided." });
@@ -22,7 +22,7 @@ export const getMainTopics = async (req: Request, res: Response): Promise<any> =
                 messages: [
                     {
                         role: "user",
-                        content: `Could you provide the 3 main topics of this text. Could you also have all the main topics to start with this "-":  ${transcript}`,    
+                        content: `Could you please provide the 3 main topics of this text. Could you also have all the main topics to start with this "-":  ${transcript} please dont use any other characters or symbols, just the main topics with a "-" in front of each one. These should be TOPICS, not sections like "Introduction" or "Conclusion". For example, if the text is about "Climate Change", the main topics could be "- Causes", "- Effects", "- Solutions". Please provide only the main topics, each starting with a "-".`,    
                     },
                 ],
                 model: "llama-3.3-70b-versatile",
@@ -36,10 +36,10 @@ export const getMainTopics = async (req: Request, res: Response): Promise<any> =
                 });
             }
 
-            const mainTopics = content.split('\n').map((topic: string) => topic.trim()).filter((topic: string) => topic.startsWith('-')).map((topic: string) => topic.substring(1).trim());;
+            const mainTopics = content.split('\n').map(line => line.trim()).filter(line => line.startsWith('-')).map(line => line.replace(/^-/, '').trim());
 
             return res.status(200).json({
-                message: `${mainTopics.join(', ')}`,
+                mainTopics: mainTopics,
             });
 
         } catch (error) {

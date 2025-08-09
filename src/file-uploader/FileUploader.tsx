@@ -1,11 +1,16 @@
-import React from "react";
+import React, { use, useEffect } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import "./FileUploader.css";
-import { getTranscription, uploadAudioFile } from "../APIs/api";
+import { getMainTopics, getTranscription, uploadAudioFile } from "../APIs/api";
 
-const FileUploader = () => {
+interface FileUploaderProps {
+  MainTopicsData: (mainTopics: string[]) => void;
+}
+
+const FileUploader:React.FC<FileUploaderProps> = ({MainTopicsData}) => {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = React.useState<string>("");
+  const [error, setError] = React.useState<string>("");
   const supportedFileTypes = [
     "mp3",
     "mp4",
@@ -26,9 +31,11 @@ const FileUploader = () => {
 
     if (!file) {
       alert("Error: No file selected.");
+      setError("- No file selected.");
       fileInputRef.current!.value = "";
     } else if (!pattern.test(file.name)) {
       alert("Error: Not a valid file type.");
+      setError(`- Please select a valid audio file. Supported formats: ${supportedFileTypes.join(", ")}`);
       fileInputRef.current!.value = "";
     } else {
       alert(`Selected file: ${file.name}`);
@@ -38,10 +45,40 @@ const FileUploader = () => {
 
   const handleSubmit = async () => {
     const response = await uploadAudioFile(fileInputRef.current!.files![0]);
+    if (!response || !response.transcriptId) {
+      alert("Error: No transcript ID returned from the server.");
+      setError("- Error: No transcript ID returned from the server.");
+      return;
+    }
+
     console.log("Audio file uploaded successfully:", response);
     const transcription = await getTranscription(response.transcriptId);
-    console.log("Transcription result:", transcription);
+    if (!transcription) {
+      alert("Error: No transcription data returned from the server.");
+      setError("- Error: No transcription data returned from the server.");
+      return;
+    }
+
+    let mainTopics = await getMainTopics(transcription.transcriptText);
+    if (!mainTopics || mainTopics.length === 0) {
+      alert("Error: No main topics extracted from the transcription.");
+      setError("- Error: No main topics extracted from the transcription.");
+      return;
+    }
+
+    MainTopicsData(mainTopics.mainTopics);
+    console.log("Main topics result:", mainTopics);
+    setFileName("");
+    fileInputRef.current!.value = "";
+    setError("");
+    alert("Transcription completed successfully!");
   };
+
+  useEffect(() => {
+    if(fileName && !pattern.test(fileName)) {
+      setError("- Please select a valid audio file.");
+    }
+  }, [fileName]);
 
   return (
     <Container className="file-uploader-container">
@@ -55,13 +92,9 @@ const FileUploader = () => {
           />
         </Form.Group>
       </Form>
-      {fileName && !pattern.test(fileName) ? (
-        <p className="mt-3 text-danger text-center">
-          - Please select a valid audio file.
-        </p>
-      ) : fileName && pattern.test(fileName) ? (
-        <p className="mt-3">Selected file: {fileName}</p>
-      ) : null}
+      { error && (
+        <p className="text-danger">{error}</p>
+      )}
       <Button className="mt-3" onClick={handleSubmit} disabled={fileName == ""}>
         Get Notes
       </Button>

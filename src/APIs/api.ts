@@ -43,7 +43,7 @@ export const uploadAudioFile = async (audioFile: File) => {
 // Functions to utilize Groq API
 export const getMainTopics = async (transcript: string) => {
     try {
-        const response = await axios.get(`http://localhost:5000/getMainTopics${transcript}`);
+        const response = await axios.post(`http://localhost:5000/getMainTopics`, { transcript });
         return response.data;
     } catch (error) {
         console.error('Error getting main topics:', error);

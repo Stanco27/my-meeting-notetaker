@@ -1,9 +1,12 @@
 import React from "react";
 import "./UrlUploader.css";
 import { Button, Container, Form, Spinner } from "react-bootstrap";
-import { getTranscription, startTranscription } from "../APIs/api";
+import { getMainTopics, getTranscription, startTranscription } from "../APIs/api";
 
-const UrlUpload = () => {
+interface UrlUploadProps {
+  MainTopicsData: (mainTopics: string[]) => void;
+}
+const UrlUpload:React.FC<UrlUploadProps> = ({MainTopicsData}) => {
   const [url, setUrl] = React.useState<string>("");
   const [URLError, setURLError] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -19,22 +22,43 @@ const UrlUpload = () => {
       alert("Please enter a valid URL");
       return;
     }
+
     setLoading(true);
     const response = await startTranscription(url);
     console.log("Audio file transcription result:", response);
+
     if (response.status == "error") {
       alert("Error: " + response.error);
       setURLError("Error: Invalid URL or transcription failed.");
       setLoading(false);
       return;
+
     } else if (!response.transcriptId) {
       alert("Error: No transcript ID returned from the server.");
       setURLError("Error: No transcript ID returned from the server.");
       setLoading(false);
       return;
     }
+
     const transcription = await getTranscription(response.transcriptId);
     console.log("Transcription result:", transcription);
+    if (!transcription) {
+      alert("Error: No transcription data returned from the server.");
+      setURLError("Error: No transcription data returned from the server.");
+      setLoading(false);
+      return
+    }
+
+    const mainTopics = await getMainTopics(transcription);
+    console.log("Main topics extracted:", mainTopics);
+    if(!mainTopics || mainTopics.length === 0) {
+      alert("Error: No main topics extracted from the transcription.");
+      setURLError("Error: No main topics extracted from the transcription.");
+      setLoading(false);
+      return;
+    }
+
+    MainTopicsData(mainTopics);
     console.log("URL submitted:", url);
     setURLError("");
     setUrl("");
