@@ -4,13 +4,16 @@ import { Button, Container } from "react-bootstrap";
 import FileUploader from "../file-uploader/FileUploader";
 import UrlUpload from "../url-uploader/UrlUpload";
 import { createFlashCards } from "../APIs/api";
+import "./TranscriptHandler.css";
 
 const TranscriptHandler = () => {
   const [flashCards, setFlashCards] = React.useState([]);
   const [mainTopics, setMainTopics] = React.useState([""]);
   const [flashCreated, setFlashCreated] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const sendMainTopics = (mTopics: string[]) => {
+    setLoading(false);
     setMainTopics(mTopics);
     console.log("Main topics sent:", mTopics);
   };
@@ -44,25 +47,25 @@ const TranscriptHandler = () => {
   };
 
   return (
-    <Container>
+    <Container className="handle-transcript-container">
       {!flashCreated && (
         <>
-          <FileUploader MainTopicsData={sendMainTopics} />
-          <UrlUpload MainTopicsData={sendMainTopics} />
-          {mainTopics.length > 0 && mainTopics[0] !== "" && (
+          <FileUploader MainTopicsData={sendMainTopics} setLoading={setLoading} loading={loading} />
+          <UrlUpload MainTopicsData={sendMainTopics} setLoading={setLoading} loading={loading} />
+          {/* {mainTopics.length > 0 && mainTopics[0] !== "" && ( */}
             <>
-              <p>Main Topics are: {mainTopics}</p>
-              <Button className="mt-3" onClick={createCards}>
+              <p className="main-topic-text mt-3">Main Topics are: {mainTopics}</p>
+              <Button className="mt-3 handle-transcript-btn" onClick={createCards}>
                 Create Flash Cards
               </Button>
             </>
-          )}
+          {/* )} */}
         </>
       )}
-      {flashCreated && (
+      {!flashCreated && (
         <>
-          <HandleFlashCards flashCards={flashCards} />
-          <Button className="mt-3" onClick={handleCreateNewFlashCards}>
+          {/* <HandleFlashCards flashCards={flashCards} /> */}
+          <Button className="mt-3 mx-auto handle-transcript-btn" onClick={handleCreateNewFlashCards}>
             Create New Flash Cards
           </Button>
         </>

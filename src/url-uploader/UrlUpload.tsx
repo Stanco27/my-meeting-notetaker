@@ -5,11 +5,12 @@ import { getMainTopics, getTranscription, startTranscription } from "../APIs/api
 
 interface UrlUploadProps {
   MainTopicsData: (mainTopics: string[]) => void;
+  setLoading: (isLoading: boolean) => void;
+  loading: boolean;
 }
-const UrlUpload:React.FC<UrlUploadProps> = ({MainTopicsData}) => {
+const UrlUpload:React.FC<UrlUploadProps> = ({MainTopicsData, setLoading, loading}) => {
   const [url, setUrl] = React.useState<string>("");
   const [URLError, setURLError] = React.useState<string>("");
-  const [loading, setLoading] = React.useState<boolean>(false);
 
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(event.target.value);

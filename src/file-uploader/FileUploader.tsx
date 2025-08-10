@@ -1,13 +1,19 @@
-import React, { use, useEffect } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Button, Container, Form, Spinner } from "react-bootstrap";
 import "./FileUploader.css";
 import { getMainTopics, getTranscription, uploadAudioFile } from "../APIs/api";
 
 interface FileUploaderProps {
   MainTopicsData: (mainTopics: string[]) => void;
+  setLoading: (isLoading: boolean) => void;
+  loading: boolean;
 }
 
-const FileUploader:React.FC<FileUploaderProps> = ({MainTopicsData}) => {
+const FileUploader: React.FC<FileUploaderProps> = ({
+  MainTopicsData,
+  setLoading,
+  loading,
+}) => {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = React.useState<string>("");
   const [error, setError] = React.useState<string>("");
@@ -35,7 +41,11 @@ const FileUploader:React.FC<FileUploaderProps> = ({MainTopicsData}) => {
       fileInputRef.current!.value = "";
     } else if (!pattern.test(file.name)) {
       alert("Error: Not a valid file type.");
-      setError(`- Please select a valid audio file. Supported formats: ${supportedFileTypes.join(", ")}`);
+      setError(
+        `- Please select a valid audio file. Supported formats: ${supportedFileTypes.join(
+          ", "
+        )}`
+      );
       fileInputRef.current!.value = "";
     } else {
       alert(`Selected file: ${file.name}`);
@@ -44,10 +54,12 @@ const FileUploader:React.FC<FileUploaderProps> = ({MainTopicsData}) => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     const response = await uploadAudioFile(fileInputRef.current!.files![0]);
     if (!response || !response.transcriptId) {
       alert("Error: No transcript ID returned from the server.");
       setError("- Error: No transcript ID returned from the server.");
+      setLoading(false);
       return;
     }
 
@@ -56,6 +68,7 @@ const FileUploader:React.FC<FileUploaderProps> = ({MainTopicsData}) => {
     if (!transcription) {
       alert("Error: No transcription data returned from the server.");
       setError("- Error: No transcription data returned from the server.");
+      setLoading(false);
       return;
     }
 
@@ -63,6 +76,7 @@ const FileUploader:React.FC<FileUploaderProps> = ({MainTopicsData}) => {
     if (!mainTopics || mainTopics.length === 0) {
       alert("Error: No main topics extracted from the transcription.");
       setError("- Error: No main topics extracted from the transcription.");
+      setLoading(false);
       return;
     }
 
@@ -72,10 +86,11 @@ const FileUploader:React.FC<FileUploaderProps> = ({MainTopicsData}) => {
     fileInputRef.current!.value = "";
     setError("");
     alert("Transcription completed successfully!");
+    setLoading(false);
   };
 
   useEffect(() => {
-    if(fileName && !pattern.test(fileName)) {
+    if (fileName && !pattern.test(fileName)) {
       setError("- Please select a valid audio file.");
     }
   }, [fileName]);
@@ -83,21 +98,28 @@ const FileUploader:React.FC<FileUploaderProps> = ({MainTopicsData}) => {
   return (
     <Container className="file-uploader-container">
       <h1>Upload</h1>
-      <Form>
-        <Form.Group>
-          <Form.Control
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-          />
-        </Form.Group>
-      </Form>
-      { error && (
-        <p className="text-danger">{error}</p>
+      {!loading && (
+        <>
+          <Form>
+            <Form.Group>
+              <Form.Control
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+              />
+            </Form.Group>
+          </Form>
+          {error && <p className="text-danger">{error}</p>}
+          <Button
+            className="mt-3"
+            onClick={handleSubmit}
+            disabled={fileName == ""}
+          >
+            Get Notes
+          </Button>
+        </>
       )}
-      <Button className="mt-3" onClick={handleSubmit} disabled={fileName == ""}>
-        Get Notes
-      </Button>
+      {loading && <Spinner animation="border" role="status" className="mt-3" />}
     </Container>
   );
 };
