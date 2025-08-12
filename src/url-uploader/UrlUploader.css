@@ -8,6 +8,23 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.313);
     border-radius: 8px;
-    background-color: rgb(126, 165, 255) !important;
+    background-color: rgb(70, 71, 73) !important;
     color: aliceblue !important;
+    animation: fadeIn 0.75s ease-in-out;
+}
+
+.url-uploader-btn {
+    background-color: rgb(163, 65, 255) !important;
+    color: aliceblue !important;
+    border: none !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.313);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

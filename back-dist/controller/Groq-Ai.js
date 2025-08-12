@@ -110,7 +110,7 @@ const createFlashCards = async (req, res) => {
             flashcards.push(currentFlashcard);
         }
         return res.status(200).json({
-            message: flashcards,
+            flashcards: flashcards,
         });
     }
     catch (error) {

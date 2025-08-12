@@ -1,6 +1,12 @@
 .navigation-bar {
-    background-color: #96ACB7;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    background-color: rgb(70, 71, 73);
     box-shadow: 1px 10px 15px rgba(0, 0, 0, 0.22);
+    border-radius: 15px;
+    width: 94%;
+    margin-left: auto;
+    margin-right: auto;
+    position: fixed;
+    z-index: 1000;
+    top: 2vh;
+    opacity: 0.8;
 }

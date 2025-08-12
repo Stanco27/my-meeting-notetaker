@@ -39,7 +39,9 @@ const FlashCard: React.FC<FlashCardProps> = ({
       console.log("Incorrect option clicked:", option);
     }
 
-    onAnswerSelected();
+    // setTimeout(() => {
+    //   onAnswerSelected();
+    // }, 1000);
 
   };
 

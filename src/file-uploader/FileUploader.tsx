@@ -106,12 +106,14 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                 type="file"
                 ref={fileInputRef}
                 onChange={handleFileChange}
+                required
+                
               />
             </Form.Group>
           </Form>
           {error && <p className="text-danger">{error}</p>}
           <Button
-            className="mt-3"
+            className="mt-3 file-uploader-btn"
             onClick={handleSubmit}
             disabled={fileName == ""}
           >

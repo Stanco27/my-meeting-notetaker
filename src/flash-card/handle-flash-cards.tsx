@@ -2,18 +2,13 @@ import React from "react";
 import { Button, Card, Stack } from "react-bootstrap";
 import FlashCard from "./flash-card";
 import "./flash-card.css";
-
-interface FlashCardProps {
-    question: string;
-    options: string[];
-    answer: string;
-}
+import type { flashCardProps } from "../transcript-handler/TranscriptHandler";
 
 interface HandleFlashCardsProps {
-    flashCards: FlashCardProps[];
+  flashCards: flashCardProps[];
 }
 
-const HandleFlashCards: React.FC<HandleFlashCardsProps> = ({ flashCards }) => {
+const HandleFlashCards: React.FC<HandleFlashCardsProps> = ({flashCards}) => {
 
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
   const [hasAnswered, setHasAnswered] = React.useState(false);
@@ -33,7 +28,9 @@ const HandleFlashCards: React.FC<HandleFlashCardsProps> = ({ flashCards }) => {
   };
 
   const onAnswerSelected = () => {
+    setTimeout(() => {
     setHasAnswered(true);
+    }, 1000);
   };
 
   const currentCard = flashCards[currentCardIndex];

@@ -1,0 +1,11 @@
+body {
+  background-image: linear-gradient(to top, rgb(112, 65, 132), rgb(43, 24, 51), rgb(0, 0, 0));
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+html, body {
+  margin: 0;
+  padding: 0; 
+}

@@ -9,7 +9,7 @@ function App() {
     <>
       <NavigationBar />
       <Container className="fluid d-flex flex-column justify-content-center align-items-center" style={{ minHeight: "60vh" }}>
-        <TranscriptHandler />
+      <TranscriptHandler />
       </Container>
     </>
   );

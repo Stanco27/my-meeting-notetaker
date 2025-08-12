@@ -1,6 +1,6 @@
 import React from "react";
 import "./UrlUploader.css";
-import { Button, Container, Form, Spinner } from "react-bootstrap";
+import { Button, Form, Spinner } from "react-bootstrap";
 import { getMainTopics, getTranscription, startTranscription } from "../APIs/api";
 
 interface UrlUploadProps {
@@ -67,7 +67,7 @@ const UrlUpload:React.FC<UrlUploadProps> = ({MainTopicsData, setLoading, loading
   };
 
   return (
-    <Container className="url-uploader-container">
+    <div className="url-uploader-container">
       <h1>Enter Audio URL</h1>
       {!loading && (
         <>
@@ -78,7 +78,7 @@ const UrlUpload:React.FC<UrlUploadProps> = ({MainTopicsData, setLoading, loading
                 placeholder="Enter audio file URL"
                 value={url}
                 onChange={handleUrlChange}
-              />
+                />
             </Form.Group>
             {URLError && (
               <p className="mt-3 text-danger text-center">- {URLError}</p>
@@ -90,10 +90,10 @@ const UrlUpload:React.FC<UrlUploadProps> = ({MainTopicsData, setLoading, loading
             )}
           </Form>
           <Button
-            className="mt-3"
+            className="mt-3 url-uploader-btn"
             onClick={handleSubmit}
             disabled={!urlRegex.test(url)}
-          >
+            >
             Get Notes
           </Button>
         </>
@@ -103,7 +103,7 @@ const UrlUpload:React.FC<UrlUploadProps> = ({MainTopicsData, setLoading, loading
           <span className="visually-hidden">Loading...</span>
         </Spinner>
       )}
-    </Container>
+      </div>
   );
 };
 
