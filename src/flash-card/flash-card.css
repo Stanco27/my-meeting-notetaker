@@ -3,19 +3,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 50vw !important;
+    width: 75vw !important;
     margin-top: 30px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    background-color: rgb(126, 165, 255) !important;
+    background-color: rgb(70, 71, 73) !important;
     color: aliceblue !important;
+    animation: fadeIn 0.75s ease-in-out !important;
 }
 
 .flash-card-options { 
     display: flex;
     flex-direction: column;
-    width: 20vw !important;
     max-width: 300px;
     border: 0.25px solid rgb(255, 255, 255) !important;
     color:aliceblue !important;
@@ -58,17 +58,26 @@
     text-align: center;
     animation: fadeIn 0.75s ease-in-out !important;
     margin-top: 10px !important;
-    width: 20vw !important;
     max-width: 300px;
+}
+
+.next-button-flash-card {
+    background-color: rgb(163, 65, 255) !important;
+    color: aliceblue !important;
+    border: none !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.313);
+}
+
+.prev-button-flash-card {
+    color: aliceblue !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.313);
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }

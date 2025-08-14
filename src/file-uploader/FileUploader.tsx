@@ -110,6 +110,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                 
               />
             </Form.Group>
+            <p className="mt-3">Supported Files: {supportedFileTypes.join(", ")}</p>
           </Form>
           {error && <p className="text-danger">{error}</p>}
           <Button

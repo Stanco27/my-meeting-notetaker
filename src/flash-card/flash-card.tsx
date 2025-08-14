@@ -6,75 +6,77 @@ interface FlashCardProps {
   question: string;
   options: string[];
   answer: string;
-  onAnswerSelected: () => void;
+  reason: string;
+  userAnswer: string;
+  onAnswerSelected: (answerLetter: string) => void;
 }
 
 const FlashCard: React.FC<FlashCardProps> = ({
   question,
   options,
   answer,
+  reason,
+  userAnswer,
   onAnswerSelected,
 }) => {
-  console.log("FlashCard component rendered with:", {
-    question,
-    options,
-    answer,
-  });
+  const cardHasBeenAnswered = userAnswer !== "";
 
-  const [OptionClick, setHandleOptionClick] = React.useState<string | null>(
-    null
-  );
-  const [feedback, setFeedback] = React.useState("");
-
-  const handleOptionClick = (option: string) => {
-    if (feedback != "") {
+  const handleOptionClick = (index: number) => {
+    if (cardHasBeenAnswered) {
       return;
     }
-    setHandleOptionClick(option);
-    if (option === answer) {
-      setFeedback("correct");
-      console.log("Correct option clicked:", option);
+    const selectedLetter = String.fromCharCode(65 + index);
+    onAnswerSelected(selectedLetter);
+  };
+
+  const getButtonClass = (index: number) => {
+    const optionLetter = String.fromCharCode(65 + index);
+    if (cardHasBeenAnswered) {
+      if (optionLetter === answer) {
+        return "correct-option flash-card-options mb-4";
+      } else if (optionLetter === userAnswer) {
+        return "incorrect-option flash-card-options mb-4";
+      } else {
+        return "disabled-options flash-card-options mb-4";
+      }
     } else {
-      setFeedback("incorrect");
-      console.log("Incorrect option clicked:", option);
+      return "no-answer flash-card-options mb-4";
     }
+  };
 
-    // setTimeout(() => {
-    //   onAnswerSelected();
-    // }, 1000);
-
+  const getAnswerText = (answerLetter: string): string => {
+    const index = answerLetter.charCodeAt(0) - 65;
+    return options[index];
   };
 
   return (
     <>
-      <h2 className="mb-3">{question}</h2>
-      <ButtonGroup vertical>
+      <h2 className="mb-4 text-center">{question}</h2>
+      <ButtonGroup vertical className="mt-3">
         {options.map((option, index) => (
           <Button
             key={index}
-            className={
-              OptionClick === option && feedback == "correct"
-                ? "correct-option flash-card-options mb-4"
-                : OptionClick === option && feedback == "incorrect"
-                ? "incorrect-option flash-card-options mb-4"
-                : feedback != "" && OptionClick !== option
-                ? "disabled-options flash-card-options mb-4"
-                : "no-answer flash-card-options mb-4"
-            }
+            className={getButtonClass(index)}
             variant="outline-primary"
-            onClick={() => handleOptionClick(option)}
+            onClick={() => handleOptionClick(index)}
+            disabled={cardHasBeenAnswered}
           >
             {option}
           </Button>
         ))}
       </ButtonGroup>
-      <p className={feedback != "" ? "flash-text" : ""}>
-        {feedback === "correct"
-          ? "Correct! Well done."
-          : feedback === "incorrect"
-          ? `Incorrect. The correct answer is: ${answer}`
-          : ""}
-      </p>
+      {cardHasBeenAnswered && (
+        <>
+          <p className="flash-text">
+            {userAnswer === answer
+              ? "Correct! Well done."
+              : `Incorrect. The correct answer is: ${getAnswerText(answer)}.`}
+          </p>
+          {userAnswer !== answer && (
+            <p className="flash-text">Reason: {reason}</p>
+          )}
+        </>
+      )}
     </>
   );
 };

@@ -59,10 +59,12 @@ const createFlashCards = async (req, res) => {
                     Question: What is the capital of France?
                     Options: A) Berlin, B) Madrid, C) Paris, D) Rome
                     Answer: C
+                    Reason: Paris is the capital of France because it is the largest city and the political, cultural, and economic center of the country.
 
                     Question: What is the largest ocean on Earth?
                     Options: A) Atlantic, B) Indian, C) Pacific, D) Arctic
-                    Answer: C`,
+                    Answer: C
+                    Reason: The Pacific Ocean is the largest ocean on Earth, covering more than 63 million square miles and extending from the Arctic in the north to the Southern Ocean in the south.`,
                 },
             ],
             model: "llama-3.3-70b-versatile",
@@ -82,11 +84,12 @@ const createFlashCards = async (req, res) => {
             const questionMatch = line.match(/^Question:\s*(.*)/i);
             const optionsMatch = line.match(/^Options:\s*(.*)/i);
             const answerMatch = line.match(/^Answer:\s*([A-D])/i);
+            const reasonMatch = line.match(/^Reason:\s*(.*)/i);
             if (questionMatch) {
-                if (currentFlashcard && currentFlashcard.question && currentFlashcard.options.length === 4 && currentFlashcard.answer) {
+                if (currentFlashcard && currentFlashcard.question && currentFlashcard.options.length === 4 && currentFlashcard.answer && currentFlashcard.reason) {
                     flashcards.push(currentFlashcard);
                 }
-                currentFlashcard = { question: questionMatch[1].trim(), options: [], answer: '' };
+                currentFlashcard = { question: questionMatch[1].trim(), options: [], answer: '', reason: '' };
             }
             else if (optionsMatch && currentFlashcard) {
                 const optionsString = optionsMatch[1].trim();
@@ -104,6 +107,9 @@ const createFlashCards = async (req, res) => {
             }
             else if (answerMatch && currentFlashcard) {
                 currentFlashcard.answer = answerMatch[1].trim().toUpperCase();
+            }
+            else if (reasonMatch && currentFlashcard) {
+                currentFlashcard.reason = reasonMatch[1].trim();
             }
         }
         if (currentFlashcard && currentFlashcard.question && currentFlashcard.options.length === 4 && currentFlashcard.answer) {

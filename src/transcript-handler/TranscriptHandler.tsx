@@ -10,6 +10,7 @@ export interface flashCardProps {
     question: string;
     answer: string;
     options: string[];
+    reason: string;
 }
 
 const TranscriptHandler = () => {
@@ -60,7 +61,7 @@ const TranscriptHandler = () => {
           <UrlUpload MainTopicsData={sendMainTopics} setLoading={setLoading} loading={loading} />
           {mainTopics.length > 0 && mainTopics[0] !== "" && (
             <>
-              <p className="main-topic-text mt-3">Main Topics are: {mainTopics}</p>
+              <p className="main-topic-text mt-3">Main Topics: {mainTopics.join(", ")}.</p>
               <Button className="mt-3 handle-transcript-btn" onClick={createCards}>
                 Create Flash Cards
               </Button>

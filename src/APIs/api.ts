@@ -5,7 +5,7 @@ import axios from  'axios';
 export const getTranscription = async (transciptId: string) => {
 
     try {
-        const response = await axios.get(`http://localhost:5000/getTranscription/${transciptId}`);
+        const response = await axios.get(`https://my-meeting-notetaker-server.onrender.com/getTranscription/${transciptId}`);
         return response.data;
     } catch (error) {
         console.error('Error uploading audio file:', error);
@@ -15,7 +15,7 @@ export const getTranscription = async (transciptId: string) => {
 
 export const startTranscription = async (audioUrl: string) => {
     try {
-        const response = await axios.post('http://localhost:5000/TranscribeAudio', { audioUrl });
+        const response = await axios.post('https://my-meeting-notetaker-server.onrender.com/TranscribeAudio', { audioUrl });
         return response.data;
     } catch (error) {
         console.error('Error starting transcription:', error);
@@ -28,7 +28,7 @@ export const uploadAudioFile = async (audioFile: File) => {
     formData.append('audioFile', audioFile);
 
     try {
-        const response = await axios.post('http://localhost:5000/uploadAudioFile', formData, {
+        const response = await axios.post('https://my-meeting-notetaker-server.onrender.com/uploadAudioFile', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -43,7 +43,7 @@ export const uploadAudioFile = async (audioFile: File) => {
 // Functions to utilize Groq API
 export const getMainTopics = async (transcript: string) => {
     try {
-        const response = await axios.post(`http://localhost:5000/getMainTopics`, { transcript });
+        const response = await axios.post(`https://my-meeting-notetaker-server.onrender.com/getMainTopics`, { transcript });
         return response.data;
     } catch (error) {
         console.error('Error getting main topics:', error);
@@ -53,7 +53,7 @@ export const getMainTopics = async (transcript: string) => {
 
 export const createFlashCards = async (mainTopics: string[]) => {
     try {
-        const response = await axios.post('http://localhost:5000/createFlashCards', { mainTopics });
+        const response = await axios.post('https://my-meeting-notetaker-server.onrender.com/createFlashCards', { mainTopics });
         return response.data;
     } catch (error) {
         console.error('Error creating flash cards:', error);

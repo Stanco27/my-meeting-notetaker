@@ -69,10 +69,12 @@ export const createFlashCards = async (req: Request, res: Response): Promise<any
                     Question: What is the capital of France?
                     Options: A) Berlin, B) Madrid, C) Paris, D) Rome
                     Answer: C
+                    Reason: Paris is the capital of France because it is the largest city and the political, cultural, and economic center of the country.
 
                     Question: What is the largest ocean on Earth?
                     Options: A) Atlantic, B) Indian, C) Pacific, D) Arctic
-                    Answer: C`,
+                    Answer: C
+                    Reason: The Pacific Ocean is the largest ocean on Earth, covering more than 63 million square miles and extending from the Arctic in the north to the Southern Ocean in the south.`,
                 },
             ],
             model: "llama-3.3-70b-versatile",
@@ -88,22 +90,23 @@ export const createFlashCards = async (req: Request, res: Response): Promise<any
             });
         }
 
-        const flashcards: { question: string, options: string[], answer: string }[] = [];
+        const flashcards: { question: string, options: string[], answer: string, reason: string }[] = [];
         const lines = content.split('\n').map(line => line.trim()).filter(line => line !== '');
 
-        let currentFlashcard: { question: string, options: string[], answer: string } | null = null;
+        let currentFlashcard: { question: string, options: string[], answer: string, reason: string } | null = null;
 
 
         for (const line of lines) {
             const questionMatch = line.match(/^Question:\s*(.*)/i);
             const optionsMatch = line.match(/^Options:\s*(.*)/i);
             const answerMatch = line.match(/^Answer:\s*([A-D])/i);
+            const reasonMatch = line.match(/^Reason:\s*(.*)/i);
 
             if (questionMatch) {
-                if (currentFlashcard && currentFlashcard.question && currentFlashcard.options.length === 4 && currentFlashcard.answer) {
+                if (currentFlashcard && currentFlashcard.question && currentFlashcard.options.length === 4 && currentFlashcard.answer && currentFlashcard.reason) {
                     flashcards.push(currentFlashcard);
                 }
-                currentFlashcard = { question: questionMatch[1].trim(), options: [], answer: '' };
+                currentFlashcard = { question: questionMatch[1].trim(), options: [], answer: '', reason: '' };
             } else if (optionsMatch && currentFlashcard) {
                 const optionsString = optionsMatch[1].trim();
                 const rawOptions = optionsString.split(',').map(opt => opt.trim());
@@ -120,6 +123,9 @@ export const createFlashCards = async (req: Request, res: Response): Promise<any
 
             } else if (answerMatch && currentFlashcard) {
                 currentFlashcard.answer = answerMatch[1].trim().toUpperCase();
+            }
+            else if (reasonMatch && currentFlashcard) {
+                currentFlashcard.reason = reasonMatch[1].trim();
             }
         }
 
