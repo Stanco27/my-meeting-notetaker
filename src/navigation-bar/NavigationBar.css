@@ -3,10 +3,38 @@
     box-shadow: 1px 10px 15px rgba(0, 0, 0, 0.22);
     border-radius: 15px;
     width: 94%;
-    margin-left: auto;
-    margin-right: auto;
-    position: fixed;
-    z-index: 1000;
+    position: fixed !important;
+    z-index: 1000 !important;
     top: 2vh;
-    opacity: 0.8;
+    opacity: 0.9;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 15px !important;
+}
+
+.brand-text {
+    text-shadow: 1px 10px 15px rgba(0, 0, 0, 0.494);
+}
+
+.logo {
+    width: 35px;
+    margin-right: 10px;
+    box-shadow: 1px 10px 15px rgba(0, 0, 0, 0.22);
+}
+
+.brand-container:hover {
+    transform: scale(1.04);
+    transition: all 0.75s ease-in-out;
+    cursor: pointer;
+}
+
+.brand-container:active {
+    transform: scale(0.98);
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+.brand-container {
+    transition: all 0.75s ease;
 }

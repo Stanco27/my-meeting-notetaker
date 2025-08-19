@@ -1,0 +1,56 @@
+.contact-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3%;
+    border-radius: 8px;
+    color: aliceblue !important;
+    background-color: rgb(70, 71, 73);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.313);
+    width: 100%;
+    animation: fadeIn 0.75s ease-in-out;
+}
+
+.contact-stack {
+    background-color: rgb(38, 38, 38);
+    border-radius: 8px;
+    padding: 6%;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.313);
+    justify-content: center;
+    transition: all 1.25s ease;
+}
+
+.contact-stack:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    background-color: rgb(46, 46, 46);
+}
+
+.contact-stack:active {
+    transition: all 0.75s;
+    transform: scale(0.95);
+    background-color: rgb(29, 29, 29);
+}
+
+.contact-row {
+    width: 100%;
+    justify-content: space-between;
+    padding: 3% 5%;
+    animation: fadeIn 0.75s ease-in-out;
+}
+
+.contact-logo {
+    margin-right: 3%;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

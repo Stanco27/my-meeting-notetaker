@@ -67,8 +67,8 @@ const UrlUpload:React.FC<UrlUploadProps> = ({MainTopicsData, setLoading, loading
   };
 
   return (
-    <div className="url-uploader-container">
-      <h1>Enter Audio URL</h1>
+    <div className="url-uploader-container mt-5">
+      <h1 className="text-center">Enter Audio URL</h1>
       {!loading && (
         <>
           <Form>

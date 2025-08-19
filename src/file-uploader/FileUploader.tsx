@@ -96,7 +96,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   }, [fileName]);
 
   return (
-    <Container className="file-uploader-container">
+    <Container className="file-uploader-container mt-5">
       <h1>Upload</h1>
       {!loading && (
         <>
