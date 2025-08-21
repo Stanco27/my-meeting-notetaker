@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import MainPage from '../main-page/mainPage'
-import ContactPage from '../contact-page/contactPage'
+import MainPage from '../main-page/MainPage'
+import ContactPage from '../contact-page/ContactPage'
 
 const AppRoutes = () => {
   return (
