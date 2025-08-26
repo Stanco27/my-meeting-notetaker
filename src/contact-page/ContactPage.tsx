@@ -1,4 +1,3 @@
-import React from "react";
 import { Col, Container, Row, Stack } from "react-bootstrap";
 import "../contact-page/ContactPage.css";
 import { Github, Linkedin } from "react-bootstrap-icons";
@@ -17,7 +16,7 @@ const ContactPage = () => {
             onClick={() => window.open("https://github.com/Stanco27")}
           >
             <Github size={30} className="contact-logo" />
-            <p className="mb-0">github.com/Stanco27</p>
+            <p className="mb-0">Github</p>
           </Stack>
         </Col>
         <Col xs={12} md={6} lg={4}>
@@ -30,7 +29,7 @@ const ContactPage = () => {
           >
             <Linkedin size={30} className="contact-logo" />
             <p className="mb-0">
-              linkedin.com/in/stanco-diaz-b418a117b/
+              LinkedIn
             </p>
           </Stack>
         </Col>

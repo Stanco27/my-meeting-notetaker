@@ -6,7 +6,7 @@ const NavigationBar = () => {
   return (
     <Navbar expand="lg" className="navigation-bar">
       <Container>
-        <div className="brand-container">
+        <div className="brand-container" onClick={() => window.location.href = "Home"}>
           <img src={logo} className="logo" />
           <Navbar.Brand href="" className="brand-text">My Meeting Notetaker</Navbar.Brand>
         </div>
